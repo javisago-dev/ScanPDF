@@ -1,4 +1,4 @@
-# Comandos útiles para Scan PDF
+# Comandos útiles para PDF Scanner for Students
 
 ## Instalación inicial
 ```powershell

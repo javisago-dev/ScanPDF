@@ -9,7 +9,7 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'Escanear PDF';
+  String get appTitle => 'Escáner PDF para estudiantes';
 
   @override
   String get scanDocument => 'Escanear Documento';

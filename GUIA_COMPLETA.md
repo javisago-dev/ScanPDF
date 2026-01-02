@@ -1,4 +1,4 @@
-# 📱 Scan PDF - Proyecto Flutter Completo
+# 📱 PDF Scanner for Students - Proyecto Flutter Completo
 
 ## ✅ Estado del Proyecto: LISTO PARA USAR
 

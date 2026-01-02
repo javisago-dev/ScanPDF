@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return Consumer<LanguageProvider>(
       builder: (context, languageProvider, child) {
         return MaterialApp(
-          title: 'Scan PDF',
+          title: 'PDF Scanner for Students',
           debugShowCheckedModeBanner: false,
           
           // Configuración de internacionalización
