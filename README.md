@@ -1,10 +1,17 @@
-# Scan PDF
+# 📱 Scan PDF
+
+[![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?logo=flutter)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)](https://dart.dev)
+[![Android](https://img.shields.io/badge/Android-5.0+-3DDC84?logo=android)](https://www.android.com)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Una aplicación Flutter para escanear documentos, generar PDFs y compartirlos fácilmente.
 
-## Características
+![Scan PDF Demo](https://via.placeholder.com/800x400?text=Scan+PDF+App)
 
-✨ **Escaneo de Documentos**
+## ✨ Características
+
+📷 **Escaneo de Documentos**
 - Escaneo con detección automática de bordes
 - Edición y recorte de imágenes antes de generar PDF
 - Soporte para múltiples páginas (hasta 10 páginas por documento)
@@ -27,29 +34,55 @@ Una aplicación Flutter para escanear documentos, generar PDFs y compartirlos f�
 - Modo claro y oscuro automático
 - Interfaz intuitiva y fácil de usar
 
-## Requisitos
+## 📸 Capturas de Pantalla
+
+> _Las capturas de pantalla se agregarán próximamente_
+
+## 🚀 Inicio Rápido
+
+### Requisitos Previos
 
 - Flutter 3.0.0 o superior
 - Dart 3.0.0 o superior
 - Android 5.0 (API 21) o superior
 
-## Instalación
+### Instalación
 
-1. Clona el repositorio o descarga el código
-2. Navega al directorio del proyecto
-3. Instala las dependencias:
+1. **Clona el repositorio**
+   ```bash
+   git clone https://github.com/javisago-dev/ScanPDF.git
+   cd ScanPDF
+   ```
+
+2. **Instala las dependencias**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Conecta tu dispositivo Android o inicia un emulador**
+   ```bash
+   flutter devices
+   ```
+
+4. **Ejecuta la aplicación**
+   ```bash
+   flutter run
+   ```
+
+### Compilar APK
 
 ```bash
-flutter pub get
+# APK de debug
+flutter build apk --debug
+
+# APK de release
+flutter build apk --release
+
+# App Bundle para Google Play
+flutter build appbundle --release
 ```
 
-4. Ejecuta la aplicación:
-
-```bash
-flutter run
-```
-
-## Dependencias Principales
+## 📦 Dependencias Principales
 
 - **cunning_document_scanner**: Escaneo de documentos con detección de bordes
 - **pdf**: Generación de archivos PDF
@@ -57,7 +90,7 @@ flutter run
 - **share_plus**: Compartir archivos
 - **permission_handler**: Gestión de permisos
 
-## Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
 lib/
@@ -76,7 +109,7 @@ lib/
     └── app_es.arb           # Traducciones español
 ```
 
-## Uso
+## 🎯 Uso
 
 1. **Escanear un documento**: Toca el botón flotante "Escanear Documento"
 2. **Tomar fotos**: La cámara se abrirá con detección automática de bordes
@@ -86,28 +119,41 @@ lib/
 6. **Compartir**: Toca un documento para generar el PDF y compartirlo
 7. **Eliminar**: Usa el menú de tres puntos para eliminar documentos
 
-## Permisos
+## 🔐 Permisos
 
 La aplicación requiere los siguientes permisos:
 - **Cámara**: Para escanear documentos
-- **Almacenamiento**: Para guardar imágenes y PDFs (solo Android < 13)
+- **Almacenamiento**: Para guardar imágenes y PDFs
 
-## Compilar para Release
+## 📚 Documentación Adicional
 
-```bash
-flutter build apk --release
-```
+- [GUIA_COMPLETA.md](GUIA_COMPLETA.md) - Documentación exhaustiva del proyecto
+- [COMANDOS.md](COMANDOS.md) - Lista de comandos útiles de Flutter
+- [PERSONALIZACION.md](PERSONALIZACION.md) - Guía para personalizar la app
 
-o para un App Bundle:
+## 🤝 Contribuciones
 
-```bash
-flutter build appbundle --release
-```
+Las contribuciones son bienvenidas. Por favor:
+1. Haz fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
-## Licencia
+## 📄 Licencia
 
 Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
-## Soporte
+## 👨‍💻 Autor
 
-Si encuentras algún problema o tienes sugerencias, por favor crea un issue en el repositorio.
+**javisago-dev**
+- GitHub: [@javisago-dev](https://github.com/javisago-dev)
+
+## ⭐ Agradecimientos
+
+- Flutter Team por el increíble framework
+- Comunidad de Flutter por los paquetes utilizados
+
+---
+
+**¡Dale una ⭐ si este proyecto te fue útil!**
