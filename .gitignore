@@ -45,3 +45,46 @@ app.*.map.json
 
 # Local configuration file
 /android/local.properties
+
+# Gradle files
+.gradle/
+/android/.gradle/
+/android/app/.cxx/
+/android/captures/
+/android/local.properties
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/gradlew
+**/android/gradlew.bat
+
+# Build outputs
+/android/app/build/
+/android/build/
+*.apk
+*.ap_
+*.aab
+
+# Signing files
+*.jks
+*.keystore
+key.properties
+
+# Generated plugin registrant
+**/GeneratedPluginRegistrant.java
+**/GeneratedPluginRegistrant.swift
+**/GeneratedPluginRegistrant.m
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Archivos de documentación temporal
+Primeros pasos*.docx
