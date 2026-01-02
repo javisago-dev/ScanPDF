@@ -2,7 +2,7 @@ import 'dart:io';
 
 class ScannedDocument {
   final String id;
-  final String name;
+  String name;  // Cambiado de final a mutable
   final List<String> imagePaths;
   final DateTime createdAt;
   String? pdfPath;

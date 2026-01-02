@@ -50,12 +50,25 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final document = await _scanner.scanDocument();
       if (document != null) {
-        setState(() {
-          _documents.insert(0, document);
-        });
-        await _storage.saveDocuments(_documents);
-        if (mounted) {
-          _showSuccessSnackBar('Document scanned successfully');
+        // Mostrar diálogo para editar el nombre
+        final newName = await _showNameDialog(
+          context,
+          initialName: document.name,
+          isNewDocument: true,
+        );
+        
+        if (newName != null && newName.isNotEmpty) {
+          document.name = newName;
+          setState(() {
+            _documents.insert(0, document);
+          });
+          await _storage.saveDocuments(_documents);
+          if (mounted) {
+            _showSuccessSnackBar('Document scanned successfully');
+          }
+        } else {
+          // Si cancela, eliminar las imágenes escaneadas
+          await document.deleteImages();
         }
       }
     } catch (e) {
@@ -113,6 +126,24 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _renameDocument(ScannedDocument document) async {
+    final newName = await _showNameDialog(
+      context,
+      initialName: document.name,
+      isNewDocument: false,
+    );
+
+    if (newName != null && newName.isNotEmpty && newName != document.name) {
+      setState(() {
+        document.name = newName;
+      });
+      await _storage.saveDocuments(_documents);
+      if (mounted) {
+        _showSuccessSnackBar('Document renamed successfully');
+      }
+    }
+  }
+
   Future<void> _deleteDocument(ScannedDocument document) async {
     final l10n = AppLocalizations.of(context)!;
     
@@ -142,6 +173,44 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       await _storage.saveDocuments(_documents);
     }
+  }
+
+  Future<String?> _showNameDialog(BuildContext context, {
+    required String initialName,
+    required bool isNewDocument,
+  }) async {
+    final l10n = AppLocalizations.of(context)!;
+    final controller = TextEditingController(text: initialName);
+    
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(isNewDocument ? 'Name Document' : 'Rename Document'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            labelText: 'Document name',
+            hintText: 'Enter document name',
+            border: OutlineInputBorder(),
+          ),
+          onSubmitted: (value) => Navigator.of(context).pop(value.trim()),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(null),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () {
+              final name = controller.text.trim();
+              Navigator.of(context).pop(name.isEmpty ? initialName : name);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showSuccessSnackBar(String message) {
@@ -311,6 +380,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     onSelected: (value) {
                       if (value == 'share') {
                         _generateAndSharePdf(document);
+                      } else if (value == 'rename') {
+                        _renameDocument(document);
                       } else if (value == 'delete') {
                         _deleteDocument(document);
                       }
@@ -323,6 +394,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             const Icon(Icons.share),
                             const SizedBox(width: 12),
                             Text(l10n.share),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'rename',
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit),
+                            SizedBox(width: 12),
+                            Text('Rename'),
                           ],
                         ),
                       ),
