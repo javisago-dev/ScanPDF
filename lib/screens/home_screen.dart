@@ -5,8 +5,12 @@ import '../services/document_storage.dart';
 import '../services/scanner_service.dart';
 import '../services/pdf_service.dart';
 import '../services/share_service.dart';
+import '../services/ad_service.dart';
+import '../services/premium_service.dart';
 import '../providers/language_provider.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/banner_ad_widget.dart';
+import '../screens/premium_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,14 +24,27 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScannerService _scanner = ScannerService();
   final PdfService _pdfService = PdfService();
   final ShareService _shareService = ShareService();
+  final AdService _adService = AdService();
+  final PremiumService _premiumService = PremiumService();
 
   List<ScannedDocument> _documents = [];
   bool _isLoading = true;
+  bool _isPremium = false;
 
   @override
   void initState() {
     super.initState();
     _loadDocuments();
+    _checkPremiumStatus();
+    _adService.loadInterstitialAd();
+    _adService.loadRewardedAd();
+  }
+
+  Future<void> _checkPremiumStatus() async {
+    final isPremium = await _premiumService.isPremium();
+    if (mounted) {
+      setState(() => _isPremium = isPremium);
+    }
   }
 
   Future<void> _loadDocuments() async {
@@ -47,6 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _scanDocument() async {
+    // Verificar si puede crear más documentos
+    if (!await _premiumService.canCreateDocument()) {
+      _showLimitReachedDialog();
+      return;
+    }
+
     try {
       final document = await _scanner.scanDocument();
       if (document != null) {
@@ -63,6 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
             _documents.insert(0, document);
           });
           await _storage.saveDocuments(_documents);
+          await _premiumService.incrementDocumentCount();
+          
+          // Mostrar interstitial ad después de guardar
+          await _adService.showInterstitialAd();
+          
           if (mounted) {
             _showSuccessSnackBar('Document scanned successfully');
           }
@@ -213,6 +241,88 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _showLimitReachedDialog() async {
+    final count = await _premiumService.getDocumentCount();
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.workspace_premium, color: Colors.deepPurple[400]),
+            const SizedBox(width: 12),
+            const Text('Limit Reached'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'You\'ve created $count/10 documents this month.',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Upgrade to Premium for unlimited documents!',
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.deepPurple.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.deepPurple, width: 2),
+              ),
+              child: const Column(
+                children: [
+                  Text(
+                    '⭐ Get Premium',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text('✓ Unlimited documents\n✓ No ads\n✓ Premium features'),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Later'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _navigateToPremium();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepPurple,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Get Premium'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _navigateToPremium() async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(builder: (context) => const PremiumScreen()),
+    );
+    
+    if (result == true) {
+      await _checkPremiumStatus();
+    }
+  }
+
   void _showSuccessSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -242,6 +352,14 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(l10n.appTitle),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
+          // Botón Premium
+          if (!_isPremium)
+            IconButton(
+              icon: Icon(Icons.workspace_premium, color: Colors.deepPurple[400]),
+              tooltip: 'Get Premium',
+              onPressed: _navigateToPremium,
+            ),
+          
           // Botón selector de idioma
           PopupMenuButton<String>(
             icon: const Icon(Icons.language),
@@ -318,12 +436,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildDocumentList(AppLocalizations l10n) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: _documents.length,
-      itemBuilder: (context, index) {
-        final document = _documents[index];
-        return Card(
+    return Column(
+      children: [
+        // Banner ad en la parte superior (solo si no es premium)
+        if (!_isPremium) const BannerAdWidget(),
+        
+        // Lista de documentos
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: _documents.length,
+            itemBuilder: (context, index) {
+              final document = _documents[index];
+              return Card(
           margin: const EdgeInsets.only(bottom: 12),
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
@@ -428,6 +553,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       },
+          ),
+        ),
+      ],
     );
   }
 

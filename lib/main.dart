@@ -4,8 +4,16 @@ import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
 import 'providers/language_provider.dart';
 import 'l10n/app_localizations.dart';
+import 'services/ad_service.dart';
+import 'services/premium_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Inicializar servicios de monetización
+  await AdService().initialize();
+  await PremiumService().initialize();
+  
   runApp(
     ChangeNotifierProvider(
       create: (_) => LanguageProvider(),

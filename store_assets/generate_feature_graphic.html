@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Graphic Generator - ScanPDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #canvas {
+            width: 100%;
+            max-width: 1024px;
+            height: auto;
+            border: 2px solid #673AB7;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .instructions {
+            background: #E1F5FE;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        button {
+            background: #673AB7;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #512DA8;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Generador de Feature Graphic para ScanPDF</h1>
+        
+        <div class="instructions">
+            <h3>📋 Instrucciones:</h3>
+            <ol>
+                <li>Carga tu icono (ScanPDF_for_students_icon.png)</li>
+                <li>Click en "Generar Feature Graphic"</li>
+                <li>Click derecho en la imagen → "Guardar imagen como..."</li>
+                <li>Guarda como: feature_graphic.png</li>
+                <li>Sube a Play Console</li>
+            </ol>
+            <p><strong>Tamaño final:</strong> 1024 x 500 px (requerido por Google Play)</p>
+        </div>
+
+        <div>
+            <label for="iconUpload"><strong>Selecciona tu icono:</strong></label><br>
+            <input type="file" id="iconUpload" accept="image/*">
+        </div>
+
+        <button onclick="generateFeatureGraphic()">🚀 Generar Feature Graphic</button>
+        
+        <canvas id="canvas" width="1024" height="500"></canvas>
+        
+        <button onclick="downloadImage()">💾 Descargar Imagen</button>
+        <button onclick="resetCanvas()">🔄 Reiniciar</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let iconImage = null;
+
+        document.getElementById('iconUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                iconImage = new Image();
+                iconImage.onload = function() {
+                    alert('✅ Icono cargado correctamente. Ahora click en "Generar Feature Graphic"');
+                }
+                iconImage.src = event.target.result;
+            }
+            
+            reader.readAsDataURL(file);
+        });
+
+        function generateFeatureGraphic() {
+            if (!iconImage) {
+                alert('❌ Por favor, primero carga tu icono');
+                return;
+            }
+
+            // Fondo degradado morado
+            const gradient = ctx.createLinearGradient(0, 0, 1024, 500);
+            gradient.addColorStop(0, '#673AB7');
+            gradient.addColorStop(1, '#9575CD');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1024, 500);
+
+            // Patrón de líneas decorativas
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 20; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * 60, 0);
+                ctx.lineTo(i * 60 + 200, 500);
+                ctx.stroke();
+            }
+
+            // Icono de la app (izquierda)
+            const iconSize = 300;
+            const iconX = 80;
+            const iconY = (500 - iconSize) / 2;
+            
+            // Sombra del icono
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            ctx.shadowBlur = 20;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 10;
+            
+            ctx.drawImage(iconImage, iconX, iconY, iconSize, iconSize);
+            
+            // Resetear sombra
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+
+            // Texto (derecha)
+            const textX = iconX + iconSize + 60;
+            
+            // Título "ScanPDF"
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 90px Arial';
+            ctx.fillText('ScanPDF', textX, 180);
+
+            // Subtítulo
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.font = '40px Arial';
+            ctx.fillText('Escanea. Convierte. Comparte.', textX, 250);
+
+            // Features
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = '28px Arial';
+            ctx.fillText('✓ Detección automática', textX, 310);
+            ctx.fillText('✓ PDFs profesionales', textX, 355);
+            ctx.fillText('✓ Sin anuncios (Premium)', textX, 400);
+
+            alert('✅ Feature Graphic generado! Ahora descárgalo con el botón "Descargar Imagen"');
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'feature_graphic.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            alert('✅ Imagen descargada! Guárdala en: store_assets/feature_graphic.png');
+        }
+
+        function resetCanvas() {
+            ctx.clearRect(0, 0, 1024, 500);
+            ctx.fillStyle = '#f5f5f5';
+            ctx.fillRect(0, 0, 1024, 500);
+            ctx.fillStyle = '#999';
+            ctx.font = '30px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Carga tu icono y genera el Feature Graphic', 512, 250);
+            ctx.textAlign = 'left';
+        }
+
+        // Inicializar canvas
+        resetCanvas();
+    </script>
+</body>
+</html>
