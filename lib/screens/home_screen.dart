@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/scanned_document.dart';
 import '../services/document_storage.dart';
 import '../services/scanner_service.dart';
 import '../services/pdf_service.dart';
 import '../services/share_service.dart';
+import '../providers/language_provider.dart';
 import '../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -170,6 +172,39 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(l10n.appTitle),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          // Botón selector de idioma
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.language),
+            tooltip: 'Change Language',
+            onSelected: (String languageCode) {
+              final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+              languageProvider.setLocale(Locale(languageCode));
+            },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem(
+                value: 'es',
+                child: Row(
+                  children: [
+                    Text('🇪🇸'),
+                    SizedBox(width: 8),
+                    Text('Español'),
+                  ],
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'en',
+                child: Row(
+                  children: [
+                    Text('🇺🇸'),
+                    SizedBox(width: 8),
+                    Text('English'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
