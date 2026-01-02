@@ -1,0 +1,22 @@
+{
+  "@@locale": "es",
+  "appTitle": "Escanear PDF",
+  "scanDocument": "Escanear Documento",
+  "myDocuments": "Mis Documentos",
+  "noDocuments": "Aún no hay documentos",
+  "scanFirstDocument": "Escanea tu primer documento",
+  "document": "Documento",
+  "pages": "páginas",
+  "share": "Compartir",
+  "delete": "Eliminar",
+  "deleteDocument": "Eliminar Documento",
+  "deleteConfirmation": "¿Estás seguro de que quieres eliminar este documento?",
+  "cancel": "Cancelar",
+  "generatingPdf": "Generando PDF...",
+  "pdfGenerated": "PDF generado exitosamente",
+  "errorGeneratingPdf": "Error al generar PDF",
+  "errorScanning": "Error al escanear documento",
+  "permissionDenied": "Permiso de cámara denegado",
+  "grantPermission": "Otorgar Permiso",
+  "cameraPermissionRequired": "Se requiere permiso de cámara para escanear documentos"
+}

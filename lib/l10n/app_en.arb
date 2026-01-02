@@ -1,0 +1,22 @@
+{
+  "@@locale": "en",
+  "appTitle": "Scan PDF",
+  "scanDocument": "Scan Document",
+  "myDocuments": "My Documents",
+  "noDocuments": "No documents yet",
+  "scanFirstDocument": "Scan your first document",
+  "document": "Document",
+  "pages": "pages",
+  "share": "Share",
+  "delete": "Delete",
+  "deleteDocument": "Delete Document",
+  "deleteConfirmation": "Are you sure you want to delete this document?",
+  "cancel": "Cancel",
+  "generatingPdf": "Generating PDF...",
+  "pdfGenerated": "PDF generated successfully",
+  "errorGeneratingPdf": "Error generating PDF",
+  "errorScanning": "Error scanning document",
+  "permissionDenied": "Camera permission denied",
+  "grantPermission": "Grant Permission",
+  "cameraPermissionRequired": "Camera permission is required to scan documents"
+}
