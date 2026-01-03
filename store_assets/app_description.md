@@ -56,7 +56,7 @@ Convierte cualquier documento físico en un PDF de alta calidad con solo tu cám
 
 ---
 
-🆓 VERSIÓN GRATUITA: 10 documentos por mes
+🆓 VERSIÓN GRATUITA: 100 documentos por mes
 💎 PREMIUM: Documentos ilimitados sin anuncios
 
 ¿Preguntas? Contáctanos en: [TU_EMAIL]
@@ -74,7 +74,7 @@ Convierte cualquier documento físico en un PDF de alta calidad con solo tu cám
 • Soporte para español e inglés
 • Sistema de monetización con AdMob
 • Versión Premium sin anuncios
-• Límite gratuito: 10 documentos/mes
+• Límite gratuito: 100 documentos/mes
 ```
 
 ## Palabras Clave (Keywords)

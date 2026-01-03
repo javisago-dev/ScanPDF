@@ -19,7 +19,7 @@ class PremiumService {
   bool _isPremium = false;
   
   // Límites para versión gratuita
-  static const int maxFreeDocumentsPerMonth = 10;
+  static const int maxFreeDocumentsPerMonth = 100;
   
   Future<void> initialize() async {
     // Cargar estado premium guardado

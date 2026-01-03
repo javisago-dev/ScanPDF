@@ -259,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'You\'ve created $count/10 documents this month.',
+              'You\'ve created $count/100 documents this month.',
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
