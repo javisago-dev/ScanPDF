@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "164682920141",
+    "project_id": "scanpdffostudents",
+    "storage_bucket": "scanpdffostudents.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164682920141:android:6fdd6ea49692bd834d7984",
+        "android_client_info": {
+          "package_name": "com.scanpdf.scan_pdf"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6jUvWBk9mgAwity_J8Nn2jnBgKL8XvOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

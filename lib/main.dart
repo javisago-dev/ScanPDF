@@ -6,6 +6,9 @@ import 'providers/language_provider.dart';
 import 'l10n/app_localizations.dart';
 import 'services/ad_service.dart';
 import 'services/premium_service.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +16,7 @@ void main() async {
   // Inicializar servicios de monetización
   await AdService().initialize();
   await PremiumService().initialize();
+  await Firebase.initializeApp();
   
   runApp(
     ChangeNotifierProvider(

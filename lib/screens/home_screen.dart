@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../analytics.dart';
+import '../analytics.dart';
+import '../analytics.dart';
 import 'package:provider/provider.dart';
 import '../models/scanned_document.dart';
 import '../services/document_storage.dart';
@@ -64,6 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _scanDocument() async {
+    // Registrar evento de inicio de escaneo
+    analytics.logEvent(name: 'scan_started');
+
     // Verificar si puede crear más documentos
     if (!await _premiumService.canCreateDocument()) {
       _showLimitReachedDialog();
@@ -137,6 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
         final pdfPath = await _pdfService.generatePdf(document);
         document.pdfPath = pdfPath;
         await _storage.saveDocuments(_documents);
+        // Registrar evento de escaneo completado
+        analytics.logEvent(name: 'scan_completed');
       }
 
       // Cerrar diálogo de carga
@@ -313,6 +321,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _navigateToPremium() async {
+    // Registrar evento de clic en premium
+    analytics.logEvent(name: 'premium_click');
+
     final result = await Navigator.push<bool>(
       context,
       MaterialPageRoute(builder: (context) => const PremiumScreen()),
